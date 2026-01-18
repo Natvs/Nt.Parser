@@ -22,7 +22,7 @@ namespace Nt.Parser
         /// Retrieves a list of symbol names available in the current context.
         /// </summary>
         /// <returns>A list of strings containing the names of all available symbols.</returns>
-        public List<String> GetSymbols()
+        public List<string> GetSymbols()
         {
             var result = new List<string>();
             foreach (var symbol in Symbols.GetSymbols())
