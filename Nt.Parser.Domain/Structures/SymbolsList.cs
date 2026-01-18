@@ -3,8 +3,12 @@
 namespace Nt.Parser.Structures
 {
 
-    public class SymbolsList : SymbolsList<Symbol>
+    public class SymbolsList
     {
+        private List<Symbol> Symbols { get; } = [];
+
+        #region Constructors
+
         /// <summary>
         /// Instantiates a list of tokens
         /// </summary>
@@ -15,22 +19,27 @@ namespace Nt.Parser.Structures
         /// <param name="list">List of string used to instantiate the tokens</param>
         public SymbolsList(List<string> list)
         {
-            foreach (var word in list) Add(new Symbol(word));
+            foreach (var word in list) Symbols.Add(new Symbol(word));
         }
 
+        #endregion
+
+        #region Public Methods
+
         /// <summary>
-        /// Adds a new token to the list.
+        /// Adds a new token to the list if not already existent.
         /// </summary>
         /// <param name="name">Name of the token to add</param>
         /// <returns>Last index of the list once the token has been added, or index of the existing one</returns>
-        public int Add(string name)
+        public Symbol Add(string name)
         {
             if (!Contains(name))
             {
-                Add(new Symbol(name));
-                return Count - 1;
+                var symbol = new Symbol(name);
+                Symbols.Add(symbol);
+                return symbol;
             }
-            return IndexOf(name);
+            return Symbols[IndexOf(name)];
         }
 
         /// <summary>
@@ -40,22 +49,17 @@ namespace Nt.Parser.Structures
         /// <returns>Last index of the list once all the tokens have been added</returns>
         public int AddRange(IEnumerable<string> names)
         {
-            foreach (var name in names) Add(new Symbol(name));
-            return Count - 1;
+            foreach (var name in names) Symbols.Add(new Symbol(name));
+            return Symbols.Count - 1;
         }
 
         /// <summary>
-        /// Check if a token is in the list
+        /// Returns a list of all symbols currently contained in the collection.
         /// </summary>
-        /// <param name="name">Name of the token to look for</param>
-        /// <returns>True if the token is in the list, False if not</returns>
-        public bool Contains(string name)
+        /// <returns>A list of objects representing the symbols in the collection.</returns>
+        public List<Symbol> GetSymbols()
         {
-            foreach (Symbol token in this)
-            {
-                if (token.Name.Equals(name)) { return true; }
-            }
-            return false;
+            return [.. Symbols];
         }
 
         /// <summary>
@@ -66,11 +70,30 @@ namespace Nt.Parser.Structures
         /// <exception cref="KeyNotFoundException">It might be that no token with the given name was found.</exception>
         public Symbol Get(string name)
         {
-            foreach (Symbol token in this)
+            foreach (Symbol token in Symbols)
             {
                 if (token.Name == name) { return token; }
             }
-            throw new KeyNotFoundException("No token " + name + " found in list");
+            throw new KeyNotFoundException("No token " + name + " found in list of symbols");
+        }
+
+        /// <summary>
+        /// Gets a token in this list by its index.
+        /// </summary>
+        /// <param name="index">Index of the token</param>
+        /// <returns>Symbol at the specified index</returns>
+        public Symbol Get(int index)
+        {
+            return Symbols[index];
+        }
+
+        /// <summary>
+        /// Gets the number of symbols in the collection.
+        /// </summary>
+        /// <returns>The total number of symbols contained in the collection.</returns>
+        public int GetCount()
+        {
+            return Symbols.Count;
         }
 
         /// <summary>
@@ -81,14 +104,28 @@ namespace Nt.Parser.Structures
         /// <exception cref="KeyNotFoundException">It might be that no token with the given name was found.</exception>
         public int IndexOf(string name)
         {
-            for (int i = 0; i < Count; i++)
+            for (int i = 0; i < Symbols.Count; i++)
             {
-                if (this[i].Name == name)
+                if (Symbols[i].Name == name)
                 {
                     return i;
                 }
             }
-            throw new KeyNotFoundException("No token " + name + " found in list");
+            throw new KeyNotFoundException("No token " + name + " found in list of symbols");
+        }
+
+        /// <summary>
+        /// Check if a token is in the list
+        /// </summary>
+        /// <param name="name">Name of the token to look for</param>
+        /// <returns>True if the token is in the list, False if not</returns>
+        public bool Contains(string name)
+        {
+            foreach (Symbol token in Symbols)
+            {
+                if (token.Name.Equals(name)) { return true; }
+            }
+            return false;
         }
 
         /// <summary>
@@ -98,22 +135,16 @@ namespace Nt.Parser.Structures
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder().Append('{');
-            for (int i = 0; i < Count - 1; i++)
+            for (int i = 0; i < Symbols.Count - 1; i++)
             {
-                sb.Append(this[i].Name).Append(", ");
+                sb.Append(Symbols[i].Name).Append(", ");
             }
-            if (Count > 0) sb.Append(this[Count - 1].Name);
+            if (Symbols.Count > 0) sb.Append(Symbols[Symbols.Count - 1].Name);
             sb.Append('}');
             return sb.ToString();
         }
+
+        #endregion
     }
 
-    /// <summary>
-    /// Represents a list of tokens, where tokens are words.
-    /// </summary>
-    public class SymbolsList<T> : List<T> where T : Symbol
-    {
-
-        
-    }
 }

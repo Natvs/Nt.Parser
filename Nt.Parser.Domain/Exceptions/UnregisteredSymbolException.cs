@@ -1,7 +1,6 @@
 ﻿namespace Nt.Parser.Exceptions
 {
-    public class UnregisteredSymbolException : Exception
+    public class UnregisteredSymbolException(string symbol) : Exception($"Symbol {symbol} is not registered")
     {
-        public UnregisteredSymbolException(string symbol) : base($"Symbol {symbol} is not registered") { }
     }
 }

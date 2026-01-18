@@ -142,11 +142,12 @@ namespace Nt.Tests.Parser
         private static void ParseString(SymbolsParser parser, string stringToParse, List<string> expectedTokens)
         {
             var result = parser.Parse(stringToParse);
+            var parsed = result.GetParsed();
 
-            Assert.Equal(expectedTokens.Count, result.Parsed.Count);
+            Assert.Equal(expectedTokens.Count, parsed.Count);
             for (var i = 0; i < expectedTokens.Count; i++)
             {
-                Assert.Equal(expectedTokens[i], result.Symbols[result.Parsed[i].TokenIndex].Name);
+                Assert.Equal(expectedTokens[i], parsed[i]);
             }
         }
 

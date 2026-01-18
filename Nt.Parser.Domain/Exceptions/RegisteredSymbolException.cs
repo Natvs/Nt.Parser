@@ -1,7 +1,6 @@
 ﻿namespace Nt.Parser.Exceptions
 {
-    public class RegisteredSymbolException : Exception
+    public class RegisteredSymbolException(string symbol) : Exception($"Symbol {symbol} already registered")
     {
-        public RegisteredSymbolException(string symbol) : base($"Symbol {symbol} already registered") { }
     }
 }

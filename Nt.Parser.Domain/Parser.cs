@@ -13,12 +13,10 @@ namespace Nt.Parser
 
         #region Parameters
 
-        private string current = "";
-        private int line = 0;
-        private ParserResult result = new();
+        internal string CurrentToken { get; set; } = "";
+        internal int CurrentLine { get; private set; } = -1;
+        private ParserResult Result { get; set; } = new();
 
-        internal string CurrentToken { get => current; set => current = value; }
-        internal int CurrentLine { get => line; set => line = value; }
         internal List<char> Separators { get; } = [' '];
         internal List<char> Breaks { get; } = [];
         internal List<string> Symbols { get; set; } = [];
@@ -61,7 +59,7 @@ namespace Nt.Parser
             {
                 if (symbol.Length == 0) throw new EmptySymbolException();
                 if (!Breaks.Contains(symbol[0])) Breaks.Add(symbol[0]);
-                result.Symbols.Add(symbol);
+                Result.Symbols.Add(symbol);
             }
         }
 
@@ -112,10 +110,13 @@ namespace Nt.Parser
         /// <returns>Informations about the parsing stored in a parser result class</returns>
         public ParserResult Parse(string content)
         {
-            CurrentState = new DefaultState(this);
+            // Resets all parameters
             CurrentToken = "";
             CurrentLine = 1;
+            Result = new();
+            CurrentState = new DefaultState(this);
 
+            // Parses all characters
             foreach (char c in content)
             {
                 if (c == '\r') continue;  // Ignores carriage return
@@ -124,19 +125,12 @@ namespace Nt.Parser
             }
             ParseCurrent(); // Ensures the last token is also parsed
 
-            return result;
-        }
-
-        public void Reset()
-        {
-            result = new();
+            return Result;
         }
 
         #endregion
 
-
-
-        #region Private Methods
+        #region Project Methods
 
         /// <summary>
         /// Gets a list of all characters that could happen after a sequence of letters among symbols list
@@ -158,13 +152,11 @@ namespace Nt.Parser
         /// </summary>
         internal void ParseCurrent()
         {
-            if (current.Length > 0)
+            if (CurrentToken.Length > 0)
             {
-                int index;
-                if (!result.Symbols.Contains(current)) index = result.Symbols.Add(current);
-                else index = result.Symbols.IndexOf(current);
-                result.Parsed.Add(new(index, line));
-                current = "";
+                var symbol = Result.Symbols.Add(CurrentToken);
+                Result.Parsed.Add(symbol, CurrentLine);
+                CurrentToken = "";
             }
         }
         #endregion

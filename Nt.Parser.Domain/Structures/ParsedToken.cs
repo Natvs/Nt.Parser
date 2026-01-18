@@ -5,12 +5,12 @@
     /// </summary>
     /// <param name="index">Index in tokens list</param>
     /// <param name="line">Line the token have been parsed</param>
-    public class ParsedToken(int index, int line)
+    public class ParsedToken(Symbol symbol, int line)
     {
         /// <summary>
-        /// Index of this parsed token in the list of tokens
+        /// Represents the symbol associated with this parsed token.
         /// </summary>
-        public int TokenIndex { get; } = index;
+        public Symbol Symbol { get; } = symbol;
         /// <summary>
         /// Line the token have been parsed
         /// </summary>

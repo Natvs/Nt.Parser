@@ -1,9 +1,6 @@
 ﻿namespace Nt.Parser.Exceptions
 {
-    public class EmptySymbolException : Exception
+    public class EmptySymbolException() : Exception("Symbol should not be empty")
     {
-
-        public EmptySymbolException() : base("Symbol should not be empty") { }
-
     }
 }
