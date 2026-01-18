@@ -1,0 +1,7 @@
+{
+  "profiles": {
+    "Nt.Parser.Domain": {
+      "commandName": "Project"
+    }
+  }
+}

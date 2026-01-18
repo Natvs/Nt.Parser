@@ -1,7 +1,7 @@
 ﻿namespace Nt.Parser.States
 {
-    internal interface IState 
+    internal interface IState
     {
-       void Handle(char c);
+        void Handle(char c);
     }
 }

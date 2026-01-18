@@ -4,7 +4,7 @@
     {
         public void Handle(char c)
         {
-            if (parser.Breaks.Contains(c)) 
+            if (parser.Breaks.Contains(c))
             {
                 parser.ParseCurrent();
                 parser.CurrentToken = c.ToString();
@@ -15,9 +15,9 @@
                 parser.ParseCurrent();
             }
             else if (c == '\\')
-            { 
+            {
                 parser.CurrentState = new EscapeCharState(parser);
-            } 
+            }
             else parser.CurrentToken += c;
         }
 

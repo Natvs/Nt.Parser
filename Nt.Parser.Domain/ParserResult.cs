@@ -77,9 +77,8 @@ namespace Nt.Parser
             sb.Append("}, Tokens = {");
             for (int i = 0; i < Parsed.GetCount() - 1; i++)
             {
-                if (i > 0) sb.Append(", ");
                 var token = Parsed.Get(i);
-                sb.Append($"(Line: {token.Line}, Value: '{token.Symbol.Name}')");
+                sb.Append($"(Line: {token.Line}, Value: '{token.Symbol.Name}'), ");
             }
             if (Parsed.GetCount() > 0)
             {

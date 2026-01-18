@@ -1,5 +1,4 @@
-﻿using Nt.Parser;
-using Nt.Parser.Exceptions;
+﻿using Nt.Parser.Exceptions;
 using Nt.Parser.States;
 
 namespace Nt.Parser
@@ -8,7 +7,7 @@ namespace Nt.Parser
     /// <summary>
     /// Represents a parser that can be customized
     /// </summary>
-    public class SymbolsParser
+    public class SymbolsParser : IParser
     {
 
         #region Parameters
@@ -24,8 +23,6 @@ namespace Nt.Parser
         internal IState? CurrentState { get; set; }
 
         #endregion
-
-
 
         #region Constructors
 
@@ -64,8 +61,6 @@ namespace Nt.Parser
         }
 
         #endregion
-
-
 
         #region Public Methods
 
@@ -160,7 +155,6 @@ namespace Nt.Parser
             }
         }
         #endregion
-
 
     }
 }

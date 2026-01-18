@@ -3,7 +3,7 @@ using Nt.Parser.Exceptions;
 
 namespace Nt.Tests.Parser
 {
-    public class ParserTest()
+    public class SymbolsParserTest()
     {
         [Fact]
         public void ParseSeparator_Test1()
