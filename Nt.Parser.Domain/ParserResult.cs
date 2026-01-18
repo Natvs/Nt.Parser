@@ -19,6 +19,21 @@ namespace Nt.Parser
         internal ParsedList Parsed { get; } = new();
 
         /// <summary>
+        /// Retrieves a list of symbol names available in the current context.
+        /// </summary>
+        /// <returns>A list of strings containing the names of all available symbols.</returns>
+        public List<String> GetSymbols()
+        {
+            var result = new List<string>();
+            foreach (var symbol in Symbols.GetSymbols())
+            {
+                result.Add(symbol.Name);
+            }
+            return result;
+
+        }
+
+        /// <summary>
         /// Returns a list of symbol names corresponding to the parsed tokens.
         /// </summary>
         /// <returns>A list of strings containing the names of symbols for each token in the parsed sequence.</returns>
