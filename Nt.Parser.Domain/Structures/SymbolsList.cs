@@ -4,17 +4,17 @@ using System.Text;
 namespace Nt.Parser.Structures
 {
 
-    public class SymbolsList<T> where T : ISymbol
+    public class SymbolsList
     {
-        private List<T> Symbols { get; } = [];
-        private ISymbolFactory<T> Factory { get; }
+        private List<ISymbol> Symbols { get; } = [];
+        private ISymbolFactory Factory { get; }
 
         #region Constructors
 
         /// <summary>
         /// Instantiates a list of tokens
         /// </summary>
-        public SymbolsList(ISymbolFactory<T> factory) : base() 
+        public SymbolsList(ISymbolFactory factory) : base() 
         {
             Factory = factory;
         }
@@ -22,7 +22,7 @@ namespace Nt.Parser.Structures
         /// Instantiates a list of tokens from a list of strings.
         /// </summary>
         /// <param name="list">List of string used to instantiate the tokens</param>
-        public SymbolsList(ISymbolFactory<T> factory, List<string> list)
+        public SymbolsList(ISymbolFactory factory, List<string> list)
         {
             Factory = factory;
             foreach (var word in list) Symbols.Add(factory.Create(word));
@@ -37,7 +37,7 @@ namespace Nt.Parser.Structures
         /// </summary>
         /// <param name="name">Name of the token to add</param>
         /// <returns>Last index of the list once the token has been added, or index of the existing one</returns>
-        public T Add(string name)
+        public ISymbol Add(string name)
         {
             if (!Contains(name))
             {
@@ -63,7 +63,7 @@ namespace Nt.Parser.Structures
         /// Returns a list of all symbols currently contained in the collection.
         /// </summary>
         /// <returns>A list of objects representing the symbols in the collection.</returns>
-        public List<T> GetSymbols()
+        public List<ISymbol> GetSymbols()
         {
             return [.. Symbols];
         }
@@ -74,7 +74,7 @@ namespace Nt.Parser.Structures
         /// <param name="name">Name of the token to get</param>
         /// <returns>First occurence of such token with the given name in the list</returns>
         /// <exception cref="KeyNotFoundException">It might be that no token with the given name was found.</exception>
-        public T Get(string name)
+        public ISymbol Get(string name)
         {
             foreach (var token in Symbols)
             {
@@ -88,7 +88,7 @@ namespace Nt.Parser.Structures
         /// </summary>
         /// <param name="index">Index of the token</param>
         /// <returns>Symbol at the specified index</returns>
-        public T Get(int index)
+        public ISymbol Get(int index)
         {
             return Symbols[index];
         }

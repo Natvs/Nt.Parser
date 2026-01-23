@@ -7,17 +7,17 @@ namespace Nt.Parser
     /// <summary>
     /// Contains results of a successive parsing. 
     /// </summary>
-    public class ParserResult<T>(ISymbolFactory<T> factory) where T : ISymbol
+    public class ParserResult(ISymbolFactory factory)
     {
         /// <summary>
         /// List of unique symbols that the parser read. These words are referenced by parsed tokens.
         /// </summary>
-        internal SymbolsList<T> Symbols { get; } = new(factory);
+        internal SymbolsList Symbols { get; } = new(factory);
 
         /// <summary>
         /// List of tokens that have been parsed. Value of a parsed token refers to the index in tokens list.
         /// </summary>
-        internal ParsedList<T> Parsed { get; } = new();
+        internal ParsedList Parsed { get; } = new();
 
         /// <summary>
         /// Retrieves a list of symbol names available in the current context.
@@ -38,7 +38,7 @@ namespace Nt.Parser
         /// Returns a list of symbol names corresponding to the parsed tokens.
         /// </summary>
         /// <returns>A list of strings containing the names of symbols for each token in the parsed sequence.</returns>
-        public List<ParsedToken<T>> GetParsed()
+        public List<ParsedToken> GetParsed()
         {
             return Parsed.GetTokens();
         }

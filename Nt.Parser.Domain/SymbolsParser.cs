@@ -8,15 +8,15 @@ namespace Nt.Parser
     /// <summary>
     /// Represents a parser that can be customized
     /// </summary>
-    public class SymbolsParser<T> : IParser<T> where T : ISymbol
+    public class SymbolsParser : IParser
     {
 
         #region Parameters
 
         internal string CurrentToken { get; set; } = "";
         internal int CurrentLine { get; private set; } = -1;
-        private ISymbolFactory<T> Factory { get; }
-        private ParserResult<T> Result { get; set; }
+        private ISymbolFactory Factory { get; }
+        private ParserResult Result { get; set; }
 
         internal List<char> Separators { get; }
         internal List<char> Breaks { get; } = [];
@@ -34,10 +34,10 @@ namespace Nt.Parser
         /// <param name="factory">Factory to create symbols</param>
         /// <param name="separators">List of words separators</param>
         /// <param name="symbols">List of symbols</param>
-        public SymbolsParser(ISymbolFactory<T> factory, List<char> separators, List<string> symbols)
+        public SymbolsParser(ISymbolFactory factory, List<char> separators, List<string> symbols)
         {
             Factory = factory;
-            Result = new ParserResult<T>(Factory);
+            Result = new ParserResult(Factory);
             Separators = separators;
             Symbols = symbols;
             SetSymbols();
@@ -100,13 +100,13 @@ namespace Nt.Parser
         /// </summary>
         /// <param name="content">String to parse</param>
         /// <returns>Informations about the parsing stored in a parser result class</returns>
-        public ParserResult<T> Parse(string content)
+        public ParserResult Parse(string content)
         {
             // Resets all parameters
             CurrentToken = "";
             CurrentLine = 1;
             Result = new(Factory);
-            CurrentState = new DefaultState<T>(this);
+            CurrentState = new DefaultState(this);
 
             // Parses all characters
             foreach (char c in content)

@@ -2,8 +2,8 @@
 
 namespace Nt.Parser
 {
-    public interface IParser<T> where T : ISymbol
+    public interface IParser
     {
-        ParserResult<T> Parse(string content);
+        ParserResult Parse(string content);
     }
 }

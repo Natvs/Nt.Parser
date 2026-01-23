@@ -34,7 +34,7 @@ namespace Nt.Parser.Application.Programs
                     var textToParse = text.ToString();
 
                     var config = ParserConfig.GetConfig();
-                    var parser = new SymbolsParser<Symbol>(new SymbolFactory(), [' ', '\n'], config.SymbolsList);
+                    var parser = new SymbolsParser(new SymbolFactory(), [' ', '\n'], config.SymbolsList);
                     var result = parser.Parse(textToParse);
 
                     Console.WriteLine("Parsing result:");

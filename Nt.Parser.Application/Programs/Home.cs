@@ -19,12 +19,12 @@
                 answer = Console.ReadLine();
                 if (answer == "1")
                 {
-                    var grammarParsing = new DefineSymbols(program);
+                    var grammarParsing = new DefineSymbols(Program);
                     grammarParsing.Execute();
                 }
                 else if (answer == "2")
                 {
-                    var codeAnalysis = new TextParsing(program);
+                    var codeAnalysis = new TextParsing(Program);
                     codeAnalysis.Execute();
                 }
             }

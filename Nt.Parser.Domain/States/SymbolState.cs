@@ -2,7 +2,7 @@
 
 namespace Nt.Parser.States
 {
-    internal class SymbolState<T>(SymbolsParser<T> parser) : IState where T : ISymbol
+    internal class SymbolState(SymbolsParser parser) : IState
     {
 
         public void Handle(char c)
@@ -10,7 +10,7 @@ namespace Nt.Parser.States
             List<char> next = parser.NextSymbols(parser.CurrentToken);
             if (c == '\\')
             {
-                parser.CurrentState = new EscapeCharState<T>(parser);
+                parser.CurrentState = new EscapeCharState(parser);
             }
             else if (next.Contains(c))
             {
@@ -24,13 +24,13 @@ namespace Nt.Parser.States
             else if (parser.Separators.Contains(c))
             {
                 parser.ParseCurrent();
-                parser.CurrentState = new DefaultState<T>(parser);
+                parser.CurrentState = new DefaultState(parser);
             }
             else
             {
                 parser.ParseCurrent();
                 parser.CurrentToken = c.ToString();
-                parser.CurrentState = new DefaultState<T>(parser);
+                parser.CurrentState = new DefaultState(parser);
             }
         }
     }
