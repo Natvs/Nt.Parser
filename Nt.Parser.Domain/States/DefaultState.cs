@@ -1,6 +1,8 @@
-﻿namespace Nt.Parser.States
+﻿using Nt.Parser.Symbols;
+
+namespace Nt.Parser.States
 {
-    internal class DefaultState(SymbolsParser parser) : IState
+    internal class DefaultState<T>(SymbolsParser<T> parser) : IState where T : ISymbol
     {
         public void Handle(char c)
         {
@@ -8,7 +10,7 @@
             {
                 parser.ParseCurrent();
                 parser.CurrentToken = c.ToString();
-                parser.CurrentState = new SymbolState(parser);
+                parser.CurrentState = new SymbolState<T>(parser);
             }
             else if (parser.Separators.Contains(c))
             {
@@ -16,7 +18,7 @@
             }
             else if (c == '\\')
             {
-                parser.CurrentState = new EscapeCharState(parser);
+                parser.CurrentState = new EscapeCharState<T>(parser);
             }
             else parser.CurrentToken += c;
         }

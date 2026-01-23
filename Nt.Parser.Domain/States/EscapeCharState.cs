@@ -1,10 +1,12 @@
-﻿namespace Nt.Parser.States
+﻿using Nt.Parser.Symbols;
+
+namespace Nt.Parser.States
 {
-    internal class EscapeCharState(SymbolsParser parser) : IState
+    internal class EscapeCharState<T>(SymbolsParser<T> parser) : IState where T : ISymbol
     {
         public void Handle(char c)
         {
-            parser.CurrentState = new DefaultState(parser);
+            parser.CurrentState = new DefaultState<T>(parser);
             parser.CurrentToken += c;
         }
     }

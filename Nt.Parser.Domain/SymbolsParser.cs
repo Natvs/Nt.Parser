@@ -1,5 +1,6 @@
 ﻿using Nt.Parser.Exceptions;
 using Nt.Parser.States;
+using Nt.Parser.Symbols;
 
 namespace Nt.Parser
 {
@@ -7,18 +8,19 @@ namespace Nt.Parser
     /// <summary>
     /// Represents a parser that can be customized
     /// </summary>
-    public class SymbolsParser : IParser
+    public class SymbolsParser<T> : IParser<T> where T : ISymbol
     {
 
         #region Parameters
 
         internal string CurrentToken { get; set; } = "";
         internal int CurrentLine { get; private set; } = -1;
-        private ParserResult Result { get; set; } = new();
+        private ISymbolFactory<T> Factory { get; }
+        private ParserResult<T> Result { get; set; }
 
-        internal List<char> Separators { get; } = [' '];
+        internal List<char> Separators { get; }
         internal List<char> Breaks { get; } = [];
-        internal List<string> Symbols { get; set; } = [];
+        internal List<string> Symbols { get; set; }
 
         internal IState? CurrentState { get; set; }
 
@@ -27,20 +29,15 @@ namespace Nt.Parser
         #region Constructors
 
         /// <summary>
-        /// Represents a parser with default separators and symbols list
-        /// </summary>
-        public SymbolsParser()
-        {
-            SetSymbols();
-        }
-
-        /// <summary>
         /// Represents a parser with custom separators and symbols list
         /// </summary>
+        /// <param name="factory">Factory to create symbols</param>
         /// <param name="separators">List of words separators</param>
         /// <param name="symbols">List of symbols</param>
-        public SymbolsParser(List<char> separators, List<string> symbols)
+        public SymbolsParser(ISymbolFactory<T> factory, List<char> separators, List<string> symbols)
         {
+            Factory = factory;
+            Result = new ParserResult<T>(Factory);
             Separators = separators;
             Symbols = symbols;
             SetSymbols();
@@ -103,13 +100,13 @@ namespace Nt.Parser
         /// </summary>
         /// <param name="content">String to parse</param>
         /// <returns>Informations about the parsing stored in a parser result class</returns>
-        public ParserResult Parse(string content)
+        public ParserResult<T> Parse(string content)
         {
             // Resets all parameters
             CurrentToken = "";
             CurrentLine = 1;
-            Result = new();
-            CurrentState = new DefaultState(this);
+            Result = new(Factory);
+            CurrentState = new DefaultState<T>(this);
 
             // Parses all characters
             foreach (char c in content)

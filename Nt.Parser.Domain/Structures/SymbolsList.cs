@@ -1,25 +1,31 @@
-﻿using System.Text;
+﻿using Nt.Parser.Symbols;
+using System.Text;
 
 namespace Nt.Parser.Structures
 {
 
-    public class SymbolsList
+    public class SymbolsList<T> where T : ISymbol
     {
-        private List<Symbol> Symbols { get; } = [];
+        private List<T> Symbols { get; } = [];
+        private ISymbolFactory<T> Factory { get; }
 
         #region Constructors
 
         /// <summary>
         /// Instantiates a list of tokens
         /// </summary>
-        public SymbolsList() : base() { }
+        public SymbolsList(ISymbolFactory<T> factory) : base() 
+        {
+            Factory = factory;
+        }
         /// <summary>
         /// Instantiates a list of tokens from a list of strings.
         /// </summary>
         /// <param name="list">List of string used to instantiate the tokens</param>
-        public SymbolsList(List<string> list)
+        public SymbolsList(ISymbolFactory<T> factory, List<string> list)
         {
-            foreach (var word in list) Symbols.Add(new Symbol(word));
+            Factory = factory;
+            foreach (var word in list) Symbols.Add(factory.Create(word));
         }
 
         #endregion
@@ -31,11 +37,11 @@ namespace Nt.Parser.Structures
         /// </summary>
         /// <param name="name">Name of the token to add</param>
         /// <returns>Last index of the list once the token has been added, or index of the existing one</returns>
-        public Symbol Add(string name)
+        public T Add(string name)
         {
             if (!Contains(name))
             {
-                var symbol = new Symbol(name);
+                var symbol = Factory.Create(name);
                 Symbols.Add(symbol);
                 return symbol;
             }
@@ -49,7 +55,7 @@ namespace Nt.Parser.Structures
         /// <returns>Last index of the list once all the tokens have been added</returns>
         public int AddRange(IEnumerable<string> names)
         {
-            foreach (var name in names) Symbols.Add(new Symbol(name));
+            foreach (var name in names) Symbols.Add(Factory.Create(name));
             return Symbols.Count - 1;
         }
 
@@ -57,7 +63,7 @@ namespace Nt.Parser.Structures
         /// Returns a list of all symbols currently contained in the collection.
         /// </summary>
         /// <returns>A list of objects representing the symbols in the collection.</returns>
-        public List<Symbol> GetSymbols()
+        public List<T> GetSymbols()
         {
             return [.. Symbols];
         }
@@ -68,9 +74,9 @@ namespace Nt.Parser.Structures
         /// <param name="name">Name of the token to get</param>
         /// <returns>First occurence of such token with the given name in the list</returns>
         /// <exception cref="KeyNotFoundException">It might be that no token with the given name was found.</exception>
-        public Symbol Get(string name)
+        public T Get(string name)
         {
-            foreach (Symbol token in Symbols)
+            foreach (var token in Symbols)
             {
                 if (token.Name == name) { return token; }
             }
@@ -82,7 +88,7 @@ namespace Nt.Parser.Structures
         /// </summary>
         /// <param name="index">Index of the token</param>
         /// <returns>Symbol at the specified index</returns>
-        public Symbol Get(int index)
+        public T Get(int index)
         {
             return Symbols[index];
         }
@@ -121,7 +127,7 @@ namespace Nt.Parser.Structures
         /// <returns>True if the token is in the list, False if not</returns>
         public bool Contains(string name)
         {
-            foreach (Symbol token in Symbols)
+            foreach (var token in Symbols)
             {
                 if (token.Name.Equals(name)) { return true; }
             }

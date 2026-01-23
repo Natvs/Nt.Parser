@@ -1,9 +1,10 @@
-﻿namespace Nt.Parser.Structures
+﻿namespace Nt.Parser.Symbols
 {
+
     /// <summary>
-    /// Represents a token. A token is just a word.
+    /// Represents a symbol with a name.
     /// </summary>
-    public class Symbol(string name)
+    public class Symbol(string name) : ISymbol
     {
         public string Name { get; } = name;
 

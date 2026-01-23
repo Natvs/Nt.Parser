@@ -1,7 +1,9 @@
-﻿namespace Nt.Parser
+﻿using Nt.Parser.Symbols;
+
+namespace Nt.Parser
 {
-    public interface IParser
+    public interface IParser<T> where T : ISymbol
     {
-        ParserResult Parse(string content);
+        ParserResult<T> Parse(string content);
     }
 }
