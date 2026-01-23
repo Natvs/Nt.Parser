@@ -41,18 +41,41 @@ Please note that any first character of a symbol is considered as a breaker and 
 |`>`,`-->`|`-->` -> `-->`|although `>` is a breaker symbol, `-->` is also a symbol|
 |`>`, `->`, `-->`|`-->` -> `-->`|although `->` is a symbol, the presence of `--` before `>` makes `-->` prime on `->`|
 
+This project contains a default type of symbol in `Nt.Syntax.Symbols.Symbol`. This symbol contains one field that represents the name of the symbol.
+By extending the `ISymbol` class in the same namespace, you can create your own type of symbol with custom fields and methods.
+
+This is particularly useful if you want the symbol to implement new interfaces. Here is an example of a custom symbol:
+```csharp
+/// <summary>
+/// Represent a symbol with a name and a custom field.
+/// </summary>
+public class CustomSymbol(string name, int custom) : ISymbol, ICustomInterface
+{
+    public string Name { get; } = name; // only field from ISymbol interface
+
+    public int CustomField; // You can define other fields
+    
+    public override int CustomMethod() { }; // You can also define custom methods
+}
+```
+
+The parser creates token. As the type of symbol used is unknown from the parser, you need to provide it a factory that extends `ISymbolFactory`. The default one is `Nt.Parser.Symbols.SymbolFactory` that creates instances of the default symbol `Symbol`.
+
 ## Using the parser
 You can create an instance of the `SymbolsParser`
 ```csharp
 using Nt.Parser;
-var parser = new SymbolsParser(separators, symbols);
+using Nt.Parser.Symbols;
+
+var parser = new SymbolsParser<Symbol>(new SymbolFactory(), separators, symbols);
 ```
 
+Here `Symbol` refers to the type of symbol used in the parser and `SymbolFactory` the factory to instantiate them. See [the symbols section](#symbols) for more details.
 Use the method `SetSymbols`, `AddSymbol` or `RemoveSymbol` to set the symbols after creating the parser.
 
 To parse a string, use the method `ParseString`
 ```csharp
-ParserResult parsed = parser.ParseString(inputString);
+ParserResult<Symbol> parsed = parser.ParseString(inputString);
 ```
 
 A `ParserResult` is a structure that contains
