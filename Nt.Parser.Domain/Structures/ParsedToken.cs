@@ -1,16 +1,18 @@
-﻿namespace Nt.Parser.Structures
+﻿using System.Numerics;
+
+namespace Nt.Parser.Structures
 {
     /// <summary>
     /// Represents a parsed token identified by its index in list of tokens
     /// </summary>
     /// <param name="index">Index in tokens list</param>
     /// <param name="line">Line the token have been parsed</param>
-    public class ParsedToken(Symbol symbol, int line)
+    public class ParsedToken<T>(T symbol, int line)
     {
         /// <summary>
         /// Represents the symbol associated with this parsed token.
         /// </summary>
-        public Symbol Symbol { get; } = symbol;
+        public T Symbol { get; } = symbol;
         /// <summary>
         /// Line the token have been parsed
         /// </summary>

@@ -1,5 +1,6 @@
-﻿namespace Nt.Parser.Structures
+﻿namespace Nt.Parser.Symbols
 {
+
     /// <summary>
     /// Represents a token. A token is just a word.
     /// </summary>

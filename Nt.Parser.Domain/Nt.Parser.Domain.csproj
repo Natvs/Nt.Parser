@@ -7,7 +7,7 @@
     <Nullable>enable</Nullable>
 	<RootNamespace>Nt.Parser</RootNamespace>
 	<Title>Nt.Parser</Title>
-	<Description>Parametrisable text parser</Description>
+	<Description>Parser that can be customized</Description>
 	<Authors>Natvs</Authors>
 	<PackageReadmeFile>README.md</PackageReadmeFile>
 	<RepositoryUrl>https://github.com/Natvs/Nt.Parser</RepositoryUrl>
@@ -15,6 +15,7 @@
 	<PackageTags>parser ; parsing ; token ; tokenisation ; tokenization</PackageTags>
 	<Version>1.0.0</Version>
 	<PackageId>Nt.Parser</PackageId>
+	<PackageReleaseNotes>First official release</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>

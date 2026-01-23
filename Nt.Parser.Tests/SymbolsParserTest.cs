@@ -147,7 +147,7 @@ namespace Nt.Tests.Parser
             Assert.Equal(expectedTokens.Count, parsed.Count);
             for (var i = 0; i < expectedTokens.Count; i++)
             {
-                Assert.Equal(expectedTokens[i], parsed[i]);
+                Assert.Equal(expectedTokens[i], parsed[i].Symbol.Name);
             }
         }
 
