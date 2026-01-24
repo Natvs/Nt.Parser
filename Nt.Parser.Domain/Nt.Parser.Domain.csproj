@@ -13,9 +13,9 @@
 	<RepositoryUrl>https://github.com/Natvs/Nt.Parser</RepositoryUrl>
 	<RepositoryType>git</RepositoryType>
 	<PackageTags>parser ; parsing ; token ; tokenisation ; tokenization</PackageTags>
-	<Version>1.0.1</Version>
+	<Version>1.0.2</Version>
 	<PackageId>Nt.Parser</PackageId>
-	<PackageReleaseNotes>New interface for symbols</PackageReleaseNotes>
+	<PackageReleaseNotes>Fix wrong return type for SymbolFactory</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>

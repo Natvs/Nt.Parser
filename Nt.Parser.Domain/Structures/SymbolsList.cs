@@ -33,10 +33,10 @@ namespace Nt.Parser.Structures
         #region Public Methods
 
         /// <summary>
-        /// Adds a new token to the list if not already existent.
+        /// Adds a new token to the list if not already existent or get the existent one.
         /// </summary>
         /// <param name="name">Name of the token to add</param>
-        /// <returns>Last index of the list once the token has been added, or index of the existing one</returns>
+        /// <returns>The symbol that has been created</returns>
         public ISymbol Add(string name)
         {
             if (!Contains(name))
@@ -53,10 +53,32 @@ namespace Nt.Parser.Structures
         /// </summary>
         /// <param name="names">Names of the tokens to add</param>
         /// <returns>Last index of the list once all the tokens have been added</returns>
-        public int AddRange(IEnumerable<string> names)
+        public void AddRange(IEnumerable<string> names)
         {
             foreach (var name in names) Symbols.Add(Factory.Create(name));
-            return Symbols.Count - 1;
+        }
+
+        /// <summary>
+        /// Remove the symbol with the specified name from the collection.
+        /// </summary>
+        /// <param name="name">The name of the symbol to remove.</param>
+        /// <exception cref="KeyNotFoundException">It might be that no symbol with the given name is found in the collection.</exception>"
+        public void Remove(string name)
+        {
+            int index = IndexOf(name);
+            Symbols.RemoveAt(index);
+        }
+
+        /// <summary>
+        /// Removes the specified symbol from the collection.
+        /// </summary>
+        /// <param name="symbol">The symbol to remove from the collection. Cannot be null.</param>
+        /// <exception cref="KeyNotFoundException">It might be that the specified symbol is not found in the collection.</exception>"
+        public void Remove(ISymbol symbol)
+        {
+            int i = Symbols.IndexOf(symbol);
+            if (i == -1) throw new KeyNotFoundException($"Can't remove symbol {symbol.Name}: symbol not found");
+            Symbols.RemoveAt(i);
         }
 
         /// <summary>
@@ -107,7 +129,7 @@ namespace Nt.Parser.Structures
         /// </summary>
         /// <param name="name">Name of the token to get</param>
         /// <returns>First occurence of such token indice with the given name</returns>
-        /// <exception cref="KeyNotFoundException">It might be that no token with the given name was found.</exception>
+        /// <exception cref="KeyNotFoundException">It might be that no token with the given name is found in the collection.</exception>
         public int IndexOf(string name)
         {
             for (int i = 0; i < Symbols.Count; i++)
