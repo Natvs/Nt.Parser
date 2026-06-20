@@ -1,4 +1,7 @@
 <Solution>
+  <Folder Name="/Éléments de solution/">
+    <File Path=".github/workflows/dotnet.yml" />
+  </Folder>
   <Project Path="Nt.Parser.Application/Nt.Parser.Application.csproj" />
   <Project Path="Nt.Parser.Domain/Nt.Parser.Domain.csproj" />
   <Project Path="Nt.Parser.Tests/Nt.Parser.Tests.csproj" />

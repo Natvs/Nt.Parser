@@ -10,9 +10,9 @@ namespace Nt.Tests.Parser.Instances
         public string Name { get; } = name;
     }
 
-    internal class CustomSymbolFactory : ISymbolFactory<CustomSymbol>
+    internal class CustomSymbolFactory : ISymbolFactory
     {
-        public CustomSymbol Create(string name)
+        public ISymbol Create(string name)
         {
             return new CustomSymbol(name);
         }

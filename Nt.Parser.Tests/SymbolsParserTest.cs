@@ -144,7 +144,7 @@ namespace Nt.Tests.Parser
         [Fact]
         public void ValidSymbolType_Test1()
         {
-            var parser = new SymbolsParser<CustomSymbol>(new CustomSymbolFactory(), [' '], ["+", "-", "*", "/", ";"]);
+            var parser = new SymbolsParser(new CustomSymbolFactory(), [' '], ["+", "-", "*", "/", ";"]);
             var result = parser.Parse("var d = $;");
 
             foreach (var token in result.GetParsed())
@@ -153,7 +153,7 @@ namespace Nt.Tests.Parser
             }
         }
 
-        private static void ParseString(SymbolsParser<Symbol> parser, string stringToParse, List<string> expectedTokens)
+        private static void ParseString(SymbolsParser parser, string stringToParse, List<string> expectedTokens)
         {
             var result = parser.Parse(stringToParse);
             var parsed = result.GetParsed();
