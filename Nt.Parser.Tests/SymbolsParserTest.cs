@@ -1,6 +1,7 @@
 ﻿using Nt.Parser;
 using Nt.Parser.Exceptions;
 using Nt.Parser.Symbols;
+using Nt.Tests.Parser.Instances;
 
 namespace Nt.Tests.Parser
 {
@@ -140,7 +141,19 @@ namespace Nt.Tests.Parser
             Assert.Throws<UnregisteredSymbolException>(() => parser.RemoveSymbol("/"));
         }
 
-        private static void ParseString(SymbolsParser parser, string stringToParse, List<string> expectedTokens)
+        [Fact]
+        public void ValidSymbolType_Test1()
+        {
+            var parser = new SymbolsParser<CustomSymbol>(new CustomSymbolFactory(), [' '], ["+", "-", "*", "/", ";"]);
+            var result = parser.Parse("var d = $;");
+
+            foreach (var token in result.GetParsed())
+            {
+                Assert.IsType<CustomSymbol>(token.Symbol);
+            }
+        }
+
+        private static void ParseString(SymbolsParser<Symbol> parser, string stringToParse, List<string> expectedTokens)
         {
             var result = parser.Parse(stringToParse);
             var parsed = result.GetParsed();
