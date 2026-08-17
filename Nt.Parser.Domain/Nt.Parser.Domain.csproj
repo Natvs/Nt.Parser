@@ -1,21 +1,24 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>net10.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<OutputType>Library</OutputType>
 
-  <PropertyGroup>
-    <OutputType>Library</OutputType>
-    <TargetFramework>net10.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-	<RootNamespace>Nt.Parser</RootNamespace>
-	<Title>Nt.Parser</Title>
-	<Description>Parser that can be customized</Description>
-	<Authors>Natvs</Authors>
-	<PackageReadmeFile>README.md</PackageReadmeFile>
-	<RepositoryUrl>https://github.com/Natvs/Nt.Parser</RepositoryUrl>
-	<RepositoryType>git</RepositoryType>
-	<PackageTags>parser ; parsing ; token ; tokenisation ; tokenization</PackageTags>
-	<Version>1.0.3</Version>
-	<PackageId>Nt.Parser</PackageId>
-	<PackageReleaseNotes>Add methods to remove symbols from symbols list</PackageReleaseNotes>
+		<Title>Nt.Parser</Title>
+	    <RootNamespace>Nt.Parser</RootNamespace>
+	    <Description>Parser that can be customized</Description>
+	    <Version>1.0.3</Version>
+	    <ReleaseNotes>Add methods to remove symbols from symbols list</ReleaseNotes>
+		
+		<RepositoryUrl>https://github.com/Natvs/Nt.Parser</RepositoryUrl>
+		<RepositoryType>git</RepositoryType>
+
+		<PackageId>Nt.Parser</PackageId>
+		<Version>1.0.3</Version>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<PackageTags>parser ; parsing ; token ; tokenisation ; tokenization</PackageTags>
+		<PackageReleaseNotes>Add methods to remove symbols from symbols list</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
