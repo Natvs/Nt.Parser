@@ -2,7 +2,7 @@
   <Folder Name="/Solution files/" Id="f7b3d445-8a77-65ff-64dd-d0037ff5b8eb">
     <File Path=".github/workflows/dotnet.yml" />
   </Folder>
-  <Project Path="Nt.Parser.Application/Nt.Parser.Application.csproj" />
-  <Project Path="Nt.Parser.Domain/Nt.Parser.Domain.csproj" />
-  <Project Path="Nt.Parser.Tests/Nt.Parser.Tests.csproj" />
+  <Project Path="Application/Application.csproj" />
+  <Project Path="Domain/Domain.csproj" />
+  <Project Path="Tests/Tests.csproj" />
 </Solution>
