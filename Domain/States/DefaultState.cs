@@ -2,7 +2,7 @@
 
 namespace Nt.Parser.States
 {
-    internal class DefaultState(SymbolsParser parser) : IState
+    internal sealed class DefaultState(SymbolsParser parser) : IState
     {
         public void Handle(char c)
         {

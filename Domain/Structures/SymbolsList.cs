@@ -151,7 +151,7 @@ namespace Nt.Parser.Structures
         {
             foreach (var token in Symbols)
             {
-                if (token.Name.Equals(name)) { return true; }
+                if (token.Name.Equals(name, StringComparison.Ordinal)) { return true; }
             }
             return false;
         }

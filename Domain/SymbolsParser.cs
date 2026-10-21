@@ -90,7 +90,7 @@ namespace Nt.Parser
             bool breaks = false;
             foreach (string sym in Symbols)
             {
-                if (sym.StartsWith(symbol[0].ToString())) { breaks = true; break; }
+                if (sym.StartsWith(symbol[0].ToString(), StringComparison.Ordinal)) { breaks = true; break; }
             }
             if (!breaks) Breaks.Remove(symbol[0]);
         }
@@ -134,7 +134,7 @@ namespace Nt.Parser
             var next = new List<char>();
             foreach (string symbol in Symbols)
             {
-                if (symbol.Length > start.Length && symbol.StartsWith(start)) next.Add(symbol[start.Length]);
+                if (symbol.Length > start.Length && symbol.StartsWith(start, StringComparison.Ordinal)) next.Add(symbol[start.Length]);
             }
             return next;
         }
