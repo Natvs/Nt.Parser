@@ -1,5 +1,6 @@
 ﻿using Nt.Parser.Structures;
 using Nt.Parser.Symbols;
+using System.Globalization;
 using System.Text;
 
 namespace Nt.Parser
@@ -54,7 +55,7 @@ namespace Nt.Parser
             for (int i = 0; i < Parsed.GetCount() - 1; i++)
             {
                 var token = Parsed.Get(i).Symbol.Name;
-                sb.Append($"{token}, ");
+                sb.Append(CultureInfo.InvariantCulture, $" {token}, ");
             }
             if (Parsed.GetTokens().Count > 0)
             {
@@ -79,22 +80,22 @@ namespace Nt.Parser
 
             for (int i = 0; i < Symbols.GetCount() - 1; i++)
             {
-                sb.Append($"'{Symbols.Get(i)}', ");
+                sb.Append(CultureInfo.InvariantCulture, $"'{Symbols.Get(i)}', ");
             }
             if (Symbols.GetCount() > 0)
             {
-                sb.Append($"'{Symbols.Get(Symbols.GetCount() - 1)}'");
+                sb.Append(CultureInfo.InvariantCulture, $"'{Symbols.Get(Symbols.GetCount() - 1)}'");
             }
             sb.Append("}, Tokens = {");
             for (int i = 0; i < Parsed.GetCount() - 1; i++)
             {
                 var token = Parsed.Get(i);
-                sb.Append($"(Line: {token.Line}, Value: '{token.Symbol.Name}'), ");
+                sb.Append(CultureInfo.InvariantCulture, $"(Line: {token.Line}, Value: '{token.Symbol.Name}'), ");
             }
             if (Parsed.GetCount() > 0)
             {
                 var token = Parsed.Get(Parsed.GetCount() - 1);
-                sb.Append($"(Line: {token.Line}, Value: '{token.Symbol.Name}')");
+                sb.Append(CultureInfo.InvariantCulture, $"(Line: {token.Line}, Value: '{token.Symbol.Name}')");
             }
 
             return sb.ToString();

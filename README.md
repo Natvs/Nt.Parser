@@ -1,5 +1,16 @@
 # Nt.Parser
 
+- [Introduction](#introduction)
+- [Prerequisites](#prerequisites)
+    - [Installation](#installation)
+    - [Define the parameters of the parser](#define-the-parameters-of-the-parser)
+        - [Separators](#separators)
+        - [Symbols](#symbols)
+- [Using the parser](#using-the-parser)
+- [Escape character](#escape-character)
+- [List of exceptions](#list-of-exceptions)
+        
+
 ## Introduction
 Many algorithm involving string requires parsing them into tokens before analysing the list of tokens created.
 
@@ -7,12 +18,27 @@ With this project, you can:
 - Split a string into a list of tokens
 - Customize the parser depending on your needs
 
-## Customize the parser
+## Prerequisites
+
+### Installation
+
+Install the NuGet package `Nt.Parser` in your project from nuget.org:
+
+```powerShell
+dotnet add package Nt.Parser --version 1.0.4
+```
+
+or add the following line in your project file:
+```xml
+<PackageReference Include="Nt.Parser" Version="1.0.4" />
+```
+
+### Define the parameters of the parser
 The customisation parameters are:
 - a list of separators: these separators are used to split the input string into tokens (default is `[' ']`)
 - a list of symbols: these symbols are used to identify tokens in the input string (default is `[]`)
 
-### Separators
+#### Separators
 Separators are characters that separate two different tokens and will be ignored when parsing. 
 
 The intuitive separator is the white space (`a b` is parsed as two tokens: `a` and `b`), but you can overwrite it and set any separator. Common separators are:
@@ -24,7 +50,7 @@ The intuitive separator is the white space (`a b` is parsed as two tokens: `a` a
 
 Please pay attention that each of these separators must be only one character (into simple quotes).
 
-### Symbols
+#### Symbols
 Symbols are sequence of characters that forms tokens when read. Symbols can be whatever you like, usually operators like `+` or `%`.
 
 Please note that any first character of a symbol is considered as a breaker and will create a new token once read (except in the continuity of symbols). Here are some examples:
