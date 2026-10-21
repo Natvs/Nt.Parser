@@ -9,7 +9,6 @@
 	    <RootNamespace>Nt.Parser</RootNamespace>
 	    <Description>Parser that can be customized</Description>
 	    <Version>1.0.3</Version>
-	    <ReleaseNotes>Add methods to remove symbols from symbols list</ReleaseNotes>
 		
 		<RepositoryUrl>https://github.com/Natvs/Nt.Parser</RepositoryUrl>
 		<RepositoryType>git</RepositoryType>
@@ -18,7 +17,11 @@
 		<Version>1.0.3</Version>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<PackageTags>parser ; parsing ; token ; tokenisation ; tokenization</PackageTags>
-		<PackageReleaseNotes>Add methods to remove symbols from symbols list</PackageReleaseNotes>
+		<PackageReleaseNotes>$([System.IO.File]::ReadAllText('$([MSBuild]::GetPathOfFileAbove(release-notes.md))'))</PackageReleaseNotes>
+
+		<AnalysisLevel>latest</AnalysisLevel>
+		<AnalysisMode>Recommended</AnalysisMode>
+		<TreatWarningsAsErrors>false</TreatWarningsAsErrors>
   </PropertyGroup>
 
   <ItemGroup>
