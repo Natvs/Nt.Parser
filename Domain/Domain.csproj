@@ -6,15 +6,16 @@
 		<OutputType>Library</OutputType>
 
 		<Title>Nt.Parser</Title>
+		<AssemblyName>Nt.Parser</AssemblyName>
 	    <RootNamespace>Nt.Parser</RootNamespace>
 	    <Description>Parser that can be customized</Description>
-	    <Version>1.0.4.1</Version>
+	    <Version>1.0.4.2</Version>
 		
 		<RepositoryUrl>https://github.com/Natvs/Nt.Parser</RepositoryUrl>
 		<RepositoryType>git</RepositoryType>
 
 		<PackageId>Nt.Parser</PackageId>
-		<PackageVersion>1.0.4.1</PackageVersion>
+		<PackageVersion>1.0.4.2</PackageVersion>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<PackageTags>parser ; parsing ; token ; tokenisation ; tokenization</PackageTags>
 		<PackageReleaseNotes>$([System.IO.File]::ReadAllText('$([MSBuild]::GetPathOfFileAbove(release-notes.md))'))</PackageReleaseNotes>
