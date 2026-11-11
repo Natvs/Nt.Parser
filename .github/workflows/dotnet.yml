@@ -20,7 +20,7 @@ env:
   SBOM_PATH: "${{github.workspace}}/bom"
 
   # API
-  API_PACKAGE_PATH: /users/natvs/packages/nuget/Nt.Automaton/versions            
+  API_PACKAGE_PATH: /users/natvs/packages/nuget/Nt.Parser/versions            
   GH_TOKEN: ${{github.token}}
   PR_NUMBER: ${{github.event.pull_request.number}}
 
@@ -315,7 +315,7 @@ jobs:
         shell: pwsh
         run: |
           Get-ChildItem -Path "${{ env.NUGET_PATH }}" -Filter "*.nupkg" | ForEach-Object {
-              dotnet nuget push $_.FullName --source "github" --skip-duplicate
+              dotnet nuget push $_.FullName --source "github"
           }
 
   publish-nuget:
