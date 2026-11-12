@@ -111,6 +111,7 @@ jobs:
           VERSION=$(dotnet msbuild ${{env.PROJECT_FILE}} -getProperty:Version)
           echo "version=$VERSION" >> "$GITHUB_OUTPUT"
           echo "Project version: $VERSION"
+          echo "Project local only: $LOCALONLY" >> "$GITHUB_OUTPUT"
       - name: Create tag
         id: tag
         run: |
@@ -209,12 +210,14 @@ jobs:
       HTML_COMMENT: "<!-- ci:package -->"
     steps:
       - uses: actions/checkout@v7
-      - name: Retrieve version
+      - name: Retrieve version and package policy
         id: version
         run: |
           cd ${{env.PROJECT_PATH}}  
           VERSION=$(dotnet msbuild ${{env.PROJECT_FILE}} -getProperty:PackageVersion)
+          LOCALONLY=$(dotnet msbuild ${{env.PROJECT_FILE}} -getProperty:PackageLocalOnly)
           echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "localonly=$LOCALONLY" >> "$GITHUB_OUTPUT"
           echo "Package version: $VERSION"
       - name: Check package
         id: check
@@ -222,12 +225,22 @@ jobs:
         run: |
           $obj = gh api ${{env.API_PACKAGE_PATH}} | ConvertFrom-Json
           $version = "${{steps.version.outputs.version}}"
+          $localonly = "${{steps.version.outputs.localonly}}"
           if ($obj.name | Select-String $version) {
-            echo "create=false" >> "$env:GITHUB_OUTPUT"
-            echo "Package for version $version already exists. No additional to create." 
-          } else {
-            echo "create=true" >> "$env:GITHUB_OUTPUT"
-            echo "Package for version $version inexistant. A new package will be created."
+            echo "publish=false" >> "$env:GITHUB_OUTPUT"
+            echo "publish_local_only=false" >> "$env:GITHUB_OUTPUT"
+            echo "Package for version $version already exists. No additional package to publish." 
+          } 
+          else {
+            echo "publish=true" >> "$env:GITHUB_OUTPUT"
+            if ($localonly -eq 'true') {
+              echo "publish_local_only=true" >> "$env:GITHUB_OUTPUT"
+              echo "Package for version $version inexistant. The package is marked as local only and will be published locally."
+            }
+            else {
+              echo "publish_local_only=false" >> "$env:GITHUB_OUTPUT"
+              echo "Package for version $version inexistant. A new package will be published."
+            }
           }
       - name: Delete previous comment
         if: github.event_name == 'pull_request'
@@ -255,21 +268,27 @@ jobs:
         env:
           VERSION: ${{steps.version.outputs.version}}
         run: |
-          if (${{steps.check.outputs.create}} == 'true') {
-            gh pr comment ${{env.PR_NUMBER}} --body `
-            "${{env.HTML_COMMENT}}Information: No package for version ${{env.VERSION}} exists. A new package will be published if the pull request is merged." 
+          if (${{steps.check.outputs.publish}} == 'true') {
+            if (${{steps.check.outputs.publish_local_only}} -eq 'true') {
+              gh pr comment ${{env.PR_NUMBER}} --body `
+              "${{env.HTML_COMMENT}}Information: No package for version ${{env.VERSION}} exists but the package is marked as local only. A new package will be published locally if the pull request is merged." 
+            } else {  
+              gh pr comment ${{env.PR_NUMBER}} --body `
+              "${{env.HTML_COMMENT}}Information: No package for version ${{env.VERSION}} exists. A new package will be published if the pull request is merged." 
+            }
           } else {
             gh pr comment ${{env.PR_NUMBER}} --body `
             "${{env.HTML_COMMENT}}Information: A package for version ${{env.VERSION}} already exists."
           }
     outputs:
-      create-package: ${{steps.check.outputs.create}}
+      publish: ${{steps.check.outputs.create}}
+      local-only: ${{steps.check.outputs.publish_local_only}}
 
   pack:
     needs: 
       - build
       - check-nuget
-    if: github.event_name == 'push' && needs.check-nuget.outputs.create-package == 'true'
+    if: github.event_name == 'push' && needs.check-nuget.outputs.publish == 'true'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
@@ -287,6 +306,7 @@ jobs:
 
   publish-local-nuget:
     needs: 
+      - check-nuget
       - pack
     runs-on: ubuntu-latest
     permissions:
@@ -320,8 +340,10 @@ jobs:
 
   publish-nuget:
     needs: 
+      - check-nuget
       - pack
     runs-on: ubuntu-latest
+    if: needs.check-nuget.outputs.local-only != 'true'
     permissions:
       id-token: write
       contents: read
