@@ -155,7 +155,7 @@ jobs:
         env:
           TAG: ${{steps.tag.outputs.tag}}
         run: |
-          if (${{steps.check.outputs.create}} == true) {
+          if (${{steps.check.outputs.create}} -eq true) {
             gh pr comment ${{env.PR_NUMBER}} --body `
               "${{env.HTML_COMMENT}}Information: No release ${{env.TAG}} exists. A new release will be created if the pull request is merged." 
           } else {
@@ -270,8 +270,8 @@ jobs:
           PUBLISH: ${{steps.check.outputs.publish}}
           LOCAL_ONLY: ${{steps.check.outputs.publish_local_only}}
         run: |
-          if (${{env.PUBLISH}} == true) {
-            if (${{env.LOCAL_ONLY}} == true) {
+          if (${{env.PUBLISH}} -eq true) {
+            if (${{env.LOCAL_ONLY}} -eq true) {
               $message = "Information: No package for version ${{env.VERSION}} exists but the package is marked as local only. A new package will be published locally if the pull request is merged."
             } else {
               $message = "Information: No package for version ${{env.VERSION}} exists. A new package will be published if the pull request is merged."
