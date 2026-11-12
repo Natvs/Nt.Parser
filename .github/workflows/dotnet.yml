@@ -155,7 +155,7 @@ jobs:
         env:
           TAG: ${{steps.tag.outputs.tag}}
         run: |
-          if (${{steps.check.outputs.create}} == 'true') {
+          if (${{steps.check.outputs.create}} == true) {
             gh pr comment ${{env.PR_NUMBER}} --body `
               "${{env.HTML_COMMENT}}Information: No release ${{env.TAG}} exists. A new release will be created if the pull request is merged." 
           } else {
@@ -172,7 +172,7 @@ jobs:
       - build
       - check-release
       - generate-sbom
-    if: github.event_name == 'push' && needs.check-release.outputs.create-release == 'true'
+    if: github.event_name == 'push' && needs.check-release.outputs.create-release == true
     runs-on: ubuntu-latest
     permissions:
       contents: write  
@@ -221,24 +221,25 @@ jobs:
       - name: Check package
         id: check
         shell: pwsh
+        env:
+          VERSION: ${{steps.version.outputs.version}}
         run: |
           $obj = gh api ${{env.API_PACKAGE_PATH}} | ConvertFrom-Json
-          $version = "${{steps.version.outputs.version}}"
           $localonly = "${{steps.version.outputs.localonly}}"
-          if ($obj.name | Select-String $version) {
+          if ($obj.name | Select-String ${{env.VERSION}}) {
             echo "publish=false" >> "$env:GITHUB_OUTPUT"
             echo "publish_local_only=false" >> "$env:GITHUB_OUTPUT"
-            echo "Package for version $version already exists. No additional package to publish." 
+            echo "Package for version ${{env.VERSION}} already exists. No additional package to publish." 
           } 
           else {
             echo "publish=true" >> "$env:GITHUB_OUTPUT"
             if ($localonly -eq 'true') {
               echo "publish_local_only=true" >> "$env:GITHUB_OUTPUT"
-              echo "Package for version $version inexistant. The package is marked as local only and will be published locally."
+              echo "Package for version ${{env.VERSION}} inexistant. The package is marked as local only and will be published locally."
             }
             else {
               echo "publish_local_only=false" >> "$env:GITHUB_OUTPUT"
-              echo "Package for version $version inexistant. A new package will be published."
+              echo "Package for version ${{env.VERSION}} inexistant. A new package will be published."
             }
           }
       - name: Delete previous comment
@@ -269,8 +270,8 @@ jobs:
           PUBLISH: ${{steps.check.outputs.publish}}
           LOCAL_ONLY: ${{steps.check.outputs.publish_local_only}}
         run: |
-          if (${{env.PUBLISH}} == 'true') {
-            if (${{env.LOCAL_ONLY}}) {
+          if (${{env.PUBLISH}} == true) {
+            if (${{env.LOCAL_ONLY}} == true) {
               $message = "Information: No package for version ${{env.VERSION}} exists but the package is marked as local only. A new package will be published locally if the pull request is merged."
             } else {
               $message = "Information: No package for version ${{env.VERSION}} exists. A new package will be published if the pull request is merged."
@@ -342,7 +343,7 @@ jobs:
       - check-nuget
       - pack
     runs-on: ubuntu-latest
-    if: needs.check-nuget.outputs.local-only != 'true'
+    if: needs.check-nuget.outputs.local-only != true
     permissions:
       id-token: write
       contents: read
