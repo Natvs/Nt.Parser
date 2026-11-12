@@ -266,7 +266,7 @@ jobs:
         env:
           VERSION: ${{steps.version.outputs.version}}
           PUBLISH: ${{steps.check.outputs.publish}}
-          LOCAL_ONLY: ${{steps.check.outputs.publish_local_only}}
+          LOCAL_ONLY: ${{steps.version.outputs.localonly}}
         run: |
           if (${{env.PUBLISH}} -eq 'true') {
             if (${{env.LOCAL_ONLY}} -eq 'true') {
@@ -280,7 +280,7 @@ jobs:
           gh pr comment ${{env.PR_NUMBER}} --body "${{env.HTML_COMMENT}}$message"
     outputs:
       publish: ${{steps.check.outputs.publish}}
-      local-only: ${{steps.check.outputs.publish_local_only}}
+      local-only: ${{steps.version.outputs.localonly}}
 
   pack:
     needs: 
