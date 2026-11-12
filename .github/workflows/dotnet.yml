@@ -280,7 +280,7 @@ jobs:
             "${{env.HTML_COMMENT}}Information: A package for version ${{env.VERSION}} already exists."
           }
     outputs:
-      publish: ${{steps.check.outputs.create}}
+      publish: ${{steps.check.outputs.publish}}
       local-only: ${{steps.check.outputs.publish_local_only}}
 
   pack:
