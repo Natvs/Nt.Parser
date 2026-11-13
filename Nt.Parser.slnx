@@ -1,6 +1,8 @@
 <Solution>
   <Folder Name="/Solution files/" Id="f7b3d445-8a77-65ff-64dd-d0037ff5b8eb">
     <File Path=".github/workflows/dotnet.yml" />
+    <File Path=".gitignore" />
+    <File Path="release-notes.md" />
   </Folder>
   <Project Path="Application/Application.csproj" />
   <Project Path="Domain/Domain.csproj" />
