@@ -156,15 +156,14 @@ jobs:
           TAG: ${{steps.tag.outputs.tag}}
         run: |
           if (${{steps.check.outputs.create}} -eq 'true') {
-            gh pr comment ${{env.PR_NUMBER}} --body `
-              "${{env.HTML_COMMENT}}Information: No release ${{env.TAG}} exists. A new release will be created if the pull request is merged." 
+            $message = "Information: No release ${{env.TAG}} exists. A new release will be created if the pull request is merged."
           } else {
-            gh pr comment ${{env.PR_NUMBER}} --body `
-              "${{env.HTML_COMMENT}}Information: A release ${{env.TAG}} already exists."
+            $message = "Information: A release ${{env.TAG}} already exists."
           }
+          gh pr comment ${{env.PR_NUMBER}} --body "${{env.HTML_COMMENT}}$message"
     outputs:
       tag: ${{steps.tag.outputs.tag}}
-      create-release: ${{steps.check.outputs.create}}
+      create: ${{steps.check.outputs.create}}
 
   # This job requires a file release-notes.md in the root of the repository with the release notes for the new release.
   create-release:
@@ -172,7 +171,7 @@ jobs:
       - build
       - check-release
       - generate-sbom
-    if: github.event_name == 'push' && needs.check-release.outputs.create-release == true
+    if: github.event_name == 'push' && needs.check-release.outputs.create == true
     runs-on: ubuntu-latest
     permissions:
       contents: write  
@@ -224,16 +223,16 @@ jobs:
         shell: pwsh
         env:
           VERSION: ${{steps.version.outputs.version}}
+          LOCALONLY: ${{steps.version.outputs.localonly}}
         run: |
           $obj = gh api ${{env.API_PACKAGE_PATH}} | ConvertFrom-Json
-          $localonly = "${{steps.version.outputs.localonly}}"
           if ($obj.name | Select-String ${{env.VERSION}}) {
             echo "publish='false'" >> "$env:GITHUB_OUTPUT"
             echo "Package for version ${{env.VERSION}} already exists. No additional package to publish." 
           } 
           else {
             echo "publish='true'" >> "$env:GITHUB_OUTPUT"
-            if ($localonly -eq 'true') {
+            if (${{env.LOCALONLY}} -eq 'true') {
               echo "Package for version ${{env.VERSION}} inexistant. The package is marked as local only and will be published locally."
             }
             else {
