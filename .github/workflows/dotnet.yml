@@ -286,9 +286,9 @@ jobs:
       - check-nuget
     runs-on: ubuntu-latest
     steps:
-      - if: needs.check-nuget.outputs.publish == 'true'
+      - if: needs.check-nuget.outputs.publish == '''true'''
         run: echo "Condition evaluated to true";
-      - if: needs.check-nuget.outputs.publish != 'true'
+      - if: needs.check-nuget.outputs.publish != '''true'''
         run: echo "Condition evaluated to false";
 
   pack:
