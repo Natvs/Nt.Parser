@@ -344,7 +344,7 @@ jobs:
       - check-nuget
       - pack
     runs-on: ubuntu-latest
-    if: needs.check-nuget.outputs.local-only != true
+    if: needs.check-nuget.outputs.local-only == false
     permissions:
       id-token: write
       contents: read
