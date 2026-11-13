@@ -281,6 +281,16 @@ jobs:
       publish: ${{steps.check.outputs.publish}}
       local-only: ${{steps.version.outputs.localonly}}
 
+  debbuging:
+    needs: 
+      - check-nuget
+    runs-on: ubuntu-latest
+    steps:
+      - name: Show outputs
+        run: |
+          echo "Publish: ${{needs.check-nuget.outputs.publish}}"
+          echo "Local only: ${{needs.check-nuget.outputs.local-only}}"
+
   pack:
     needs: 
       - build
