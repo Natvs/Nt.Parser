@@ -122,10 +122,10 @@ jobs:
         run: |
           $TAG = "${{steps.tag.outputs.tag}}"
           if (gh release view "$TAG") {     
-            echo "create='false'" >> "$GITHUB_OUTPUT"
+            echo "create='false'" >> "$Env:GITHUB_OUTPUT"
             echo "Release $TAG already exists. No release will be created."
           } else {     
-            echo "create='true'" >> "$GITHUB_OUTPUT"
+            echo "create='true'" >> "$Env:GITHUB_OUTPUT"
             echo "Release $TAG does not exist. A new release will be created."
           }
           exit 0
@@ -227,11 +227,11 @@ jobs:
         run: |
           $obj = gh api ${{env.API_PACKAGE_PATH}} | ConvertFrom-Json
           if ($obj.name | Select-String ${{env.VERSION}}) {
-            echo "publish='false'" >> "$GITHUB_OUTPUT"
+            echo "publish='false'" >> "$Env:GITHUB_OUTPUT"
             echo "Package for version ${{env.VERSION}} already exists. No additional package to publish." 
           } 
           else {
-            echo "publish='true'" >> "$GITHUB_OUTPUT"
+            echo "publish='true'" >> "$Env:GITHUB_OUTPUT"
             if (${{env.LOCALONLY}} -eq 'true') {
               echo "Package for version ${{env.VERSION}} inexistant. The package is marked as local only and will be published locally."
             }
