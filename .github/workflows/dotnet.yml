@@ -281,15 +281,15 @@ jobs:
       publish: ${{steps.check.outputs.publish}}
       local-only: ${{steps.version.outputs.localonly}}
 
-  debbuging:
+  debugging:
     needs: 
       - check-nuget
     runs-on: ubuntu-latest
     steps:
-      - name: Show outputs
-        run: |
-          echo "Publish: ${{needs.check-nuget.outputs.publish}}"
-          echo "Local only: ${{needs.check-nuget.outputs.local-only}}"
+      - if: needs.check-nuget.outputs.publish == 'true'
+        run: echo "Condition evaluated to true";
+      - if: needs.check-nuget.outputs.publish != 'true'
+        run: echo "Condition evaluated to false";
 
   pack:
     needs: 
