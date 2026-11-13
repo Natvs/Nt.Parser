@@ -174,7 +174,7 @@ jobs:
       - build
       - check-release
       - generate-sbom
-    if: github.event_name == 'push' && needs.check-release.outputs.create == true
+    if: github.event_name == 'push' && needs.check-release.outputs.create == 'true'
     runs-on: ubuntu-latest
     permissions:
       contents: write  
@@ -289,7 +289,7 @@ jobs:
     needs: 
       - build
       - check-nuget
-    if: github.event_name == 'push' && needs.check-nuget.outputs.publish == true
+    if: github.event_name == 'push' && needs.check-nuget.outputs.publish == 'true'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
